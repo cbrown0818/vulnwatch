@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""MOV Mobile IT desktop interface for VulnWatch."""
+"""Desktop interface for VulnWatch."""
 
 from __future__ import annotations
 
@@ -16,7 +16,7 @@ import tkinter as tk
 from tkinter import filedialog, messagebox, ttk
 
 
-APP_NAME = "MOV Mobile IT — VulnWatch"
+APP_NAME = "VulnWatch"
 BG = "#071014"
 PANEL = "#0D1C21"
 PANEL_2 = "#11272D"
@@ -29,11 +29,11 @@ BORDER = "#1C3D42"
 
 
 def default_report_root() -> Path:
-    return Path.home() / "Documents" / "MOV Mobile IT" / "VulnWatch Reports"
+    return Path.home() / "Documents" / "VulnWatch" / "Reports"
 
 
 def settings_path() -> Path:
-    base = Path(os.getenv("APPDATA", Path.home())) / "MOV Mobile IT" / "VulnWatch"
+    base = Path(os.getenv("APPDATA", Path.home())) / "VulnWatch"
     return base / "settings.json"
 
 
@@ -78,44 +78,44 @@ class VulnWatchGUI(tk.Tk):
     def _configure_styles(self) -> None:
         style = ttk.Style(self)
         style.theme_use("clam")
-        style.configure("MOV.TFrame", background=BG)
+        style.configure("VW.TFrame", background=BG)
         style.configure("Panel.TFrame", background=PANEL)
-        style.configure("MOV.TLabel", background=BG, foreground=TEXT, font=("Segoe UI", 10))
+        style.configure("VW.TLabel", background=BG, foreground=TEXT, font=("Segoe UI", 10))
         style.configure("Title.TLabel", background=BG, foreground=TEXT, font=("Segoe UI Semibold", 24))
         style.configure("Sub.TLabel", background=BG, foreground=MUTED, font=("Segoe UI", 10))
         style.configure("Panel.TLabel", background=PANEL, foreground=TEXT, font=("Segoe UI", 10))
         style.configure("Head.TLabel", background=PANEL, foreground=TEAL, font=("Segoe UI Semibold", 11))
         style.configure("Status.TLabel", background=PANEL_2, foreground=TEAL, font=("Segoe UI Semibold", 10))
-        style.configure("MOV.TEntry", fieldbackground=PANEL_2, foreground=TEXT, insertcolor=TEXT,
+        style.configure("VW.TEntry", fieldbackground=PANEL_2, foreground=TEXT, insertcolor=TEXT,
                         bordercolor=BORDER, lightcolor=BORDER, darkcolor=BORDER, padding=8)
-        style.configure("MOV.TCombobox", fieldbackground=PANEL_2, foreground=TEXT, arrowcolor=TEAL,
+        style.configure("VW.TCombobox", fieldbackground=PANEL_2, foreground=TEXT, arrowcolor=TEAL,
                         bordercolor=BORDER, lightcolor=BORDER, darkcolor=BORDER, padding=7)
-        style.map("MOV.TCombobox", fieldbackground=[("readonly", PANEL_2)], foreground=[("readonly", TEXT)])
+        style.map("VW.TCombobox", fieldbackground=[("readonly", PANEL_2)], foreground=[("readonly", TEXT)])
         style.configure("Teal.TButton", background=TEAL, foreground="#03201E", borderwidth=0,
                         font=("Segoe UI Semibold", 10), padding=(18, 10))
         style.map("Teal.TButton", background=[("active", "#56E8DC"), ("disabled", TEAL_DARK)])
         style.configure("Ghost.TButton", background=PANEL_2, foreground=TEXT, bordercolor=BORDER,
                         font=("Segoe UI", 10), padding=(14, 9))
         style.map("Ghost.TButton", background=[("active", "#18383E")])
-        style.configure("MOV.Horizontal.TProgressbar", background=TEAL, troughcolor=PANEL_2,
+        style.configure("VW.Horizontal.TProgressbar", background=TEAL, troughcolor=PANEL_2,
                         bordercolor=PANEL_2, lightcolor=TEAL, darkcolor=TEAL)
 
     def _build(self) -> None:
-        shell = ttk.Frame(self, style="MOV.TFrame", padding=(30, 22))
+        shell = ttk.Frame(self, style="VW.TFrame", padding=(30, 22))
         shell.pack(fill="both", expand=True)
 
-        header = ttk.Frame(shell, style="MOV.TFrame")
+        header = ttk.Frame(shell, style="VW.TFrame")
         header.pack(fill="x", pady=(0, 18))
         CircuitLogo(header).pack(side="left", padx=(0, 14))
-        names = ttk.Frame(header, style="MOV.TFrame")
+        names = ttk.Frame(header, style="VW.TFrame")
         names.pack(side="left", fill="x", expand=True)
-        ttk.Label(names, text="MOV MOBILE IT", style="Sub.TLabel").pack(anchor="w")
+        ttk.Label(names, text="VULNERABILITY INTELLIGENCE", style="Sub.TLabel").pack(anchor="w")
         ttk.Label(names, text="VulnWatch", style="Title.TLabel").pack(anchor="w")
         ttk.Label(names, textvariable=self.summary, style="Sub.TLabel").pack(anchor="w", pady=(3, 0))
         status_box = ttk.Label(header, textvariable=self.status, style="Status.TLabel", padding=(14, 8))
         status_box.pack(side="right")
 
-        body = ttk.Frame(shell, style="MOV.TFrame")
+        body = ttk.Frame(shell, style="VW.TFrame")
         body.pack(fill="both", expand=True)
         body.columnconfigure(1, weight=1)
         body.rowconfigure(0, weight=1)
@@ -130,12 +130,12 @@ class VulnWatchGUI(tk.Tk):
         ttk.Label(controls, text="Report folder", style="Panel.TLabel").pack(anchor="w", pady=(11, 5))
         path_row = ttk.Frame(controls, style="Panel.TFrame")
         path_row.pack(fill="x")
-        ttk.Entry(path_row, textvariable=self.output_root, style="MOV.TEntry", width=29).pack(side="left", fill="x", expand=True)
+        ttk.Entry(path_row, textvariable=self.output_root, style="VW.TEntry", width=29).pack(side="left", fill="x", expand=True)
         ttk.Button(path_row, text="…", style="Ghost.TButton", width=3, command=self.choose_folder).pack(side="left", padx=(6, 0))
 
         ttk.Label(controls, text="NVD API key (recommended)", style="Panel.TLabel").pack(anchor="w", pady=(15, 5))
-        ttk.Entry(controls, textvariable=self.api_key, show="•", style="MOV.TEntry").pack(fill="x")
-        ttk.Label(controls, text="Stored only on this computer.", style="Panel.TLabel", foreground=MUTED).pack(anchor="w", pady=(4, 18))
+        ttk.Entry(controls, textvariable=self.api_key, show="•", style="VW.TEntry").pack(fill="x")
+        ttk.Label(controls, text="Used for this session; never saved.", style="Panel.TLabel", foreground=MUTED).pack(anchor="w", pady=(4, 18))
 
         self.scan_button = ttk.Button(controls, text="RUN VULNERABILITY SCAN", style="Teal.TButton", command=self.start_scan)
         self.scan_button.pack(fill="x", pady=(6, 8))
@@ -151,7 +151,7 @@ class VulnWatchGUI(tk.Tk):
         ttk.Label(top, text="SCAN ACTIVITY", style="Head.TLabel").pack(side="left")
         self.open_button = ttk.Button(top, text="Open latest report", style="Ghost.TButton", command=self.open_report, state="disabled")
         self.open_button.pack(side="right")
-        self.progress = ttk.Progressbar(activity, style="MOV.Horizontal.TProgressbar", mode="indeterminate")
+        self.progress = ttk.Progressbar(activity, style="VW.Horizontal.TProgressbar", mode="indeterminate")
         self.progress.grid(row=1, column=0, sticky="ew", pady=(18, 10))
         self.stage_label = ttk.Label(activity, text="Waiting for a scan.", style="Panel.TLabel")
         self.stage_label.grid(row=2, column=0, sticky="w", pady=(0, 10))
@@ -166,12 +166,12 @@ class VulnWatchGUI(tk.Tk):
         scroll.pack(side="right", fill="y")
         self._log("VulnWatch is ready. Configure the scan and select Run Vulnerability Scan.")
 
-        footer = ttk.Label(shell, text="DEFENSIVE SECURITY INTELLIGENCE  •  MOV MOBILE IT", style="Sub.TLabel")
+        footer = ttk.Label(shell, text="VULNWATCH  •  DEFENSIVE SECURITY INTELLIGENCE", style="Sub.TLabel")
         footer.pack(anchor="e", pady=(14, 0))
 
     def _field(self, parent: ttk.Frame, label: str, variable: tk.StringVar, values: tuple[str, ...]) -> None:
         ttk.Label(parent, text=label, style="Panel.TLabel").pack(anchor="w", pady=(10, 5))
-        ttk.Combobox(parent, textvariable=variable, values=values, state="readonly", style="MOV.TCombobox").pack(fill="x")
+        ttk.Combobox(parent, textvariable=variable, values=values, state="readonly", style="VW.TCombobox").pack(fill="x")
 
     def _log(self, text: str) -> None:
         self.log.configure(state="normal")
@@ -284,7 +284,6 @@ class VulnWatchGUI(tk.Tk):
             self.limit.set(str(data.get("limit", self.limit.get())))
             self.scope.set(data.get("scope", self.scope.get()))
             self.output_root.set(data.get("output_root", self.output_root.get()))
-            self.api_key.set(data.get("api_key", ""))
         except (OSError, ValueError, TypeError):
             pass
 
@@ -293,8 +292,8 @@ class VulnWatchGUI(tk.Tk):
         try:
             path.parent.mkdir(parents=True, exist_ok=True)
             path.write_text(json.dumps({"days": self.days.get(), "limit": self.limit.get(),
-                                        "scope": self.scope.get(), "output_root": self.output_root.get(),
-                                        "api_key": self.api_key.get()}), encoding="utf-8")
+                                        "scope": self.scope.get(), "output_root": self.output_root.get()}),
+                            encoding="utf-8")
         except OSError:
             pass
 

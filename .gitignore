@@ -1,0 +1,13 @@
+__pycache__/
+*.py[cod]
+*.zip
+.venv/
+venv/
+report/
+Reports/
+top_vulnerabilities.json
+top_vulnerabilities.csv
+.idea/
+.vscode/
+Thumbs.db
+.DS_Store

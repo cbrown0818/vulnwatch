@@ -13,7 +13,7 @@ It creates a searchable HTML dashboard plus machine-readable CSV and JSON.
 
 Python 3.10 or newer is the only dependency.
 
-### MOV Mobile IT desktop interface
+### Desktop interface
 
 On Windows, launch the themed GUI with:
 
@@ -23,7 +23,7 @@ python .\vulnwatch_gui.py
 
 The GUI provides scan settings, live activity, cancellation, remembered
 preferences, timestamped report history, and one-click report opening. Reports
-default to `Documents\MOV Mobile IT\VulnWatch Reports`, regardless of the folder
+default to `Documents\VulnWatch\Reports`, regardless of the folder
 from which Python was launched.
 
 ### Command line
